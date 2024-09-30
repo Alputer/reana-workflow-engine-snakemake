@@ -95,16 +95,30 @@ RUN if [ "${DEBUG}" -gt 0 ]; then pip install --no-cache-dir -e ".[debug,xrootd]
 # hadolint ignore=DL3008,DL3013
 RUN apt-get update -y && \
     apt-get install -y --no-install-recommends \
-      git && \
+        cmake \
+        g++ \
+        gcc \
+        git \
+        libssl-dev \
+        make \
+        python3.12-dev \
+        uuid-dev && \
     if test -e modules/reana-commons; then \
       if [ "${DEBUG}" -gt 0 ]; then \
-        pip install --no-cache-dir -e "modules/reana-commons[snakemake_reports]" --upgrade; \
+        pip install --no-cache-dir -e "modules/reana-commons[snakemake, snakemake-xrootd]" --upgrade; \
       else \
-        pip install --no-cache-dir "modules/reana-commons[snakemake_reports]" --upgrade; \
+        pip install --no-cache-dir "modules/reana-commons[snakemake-xrootd]" --upgrade; \
       fi \
     fi && \
     apt-get remove -y \
-        git && \
+        cmake \
+        g++ \
+        gcc \
+        git \
+        libssl-dev \
+        make \
+        python3.12-dev \
+        uuid-dev && \
     apt-get autoremove -y && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
